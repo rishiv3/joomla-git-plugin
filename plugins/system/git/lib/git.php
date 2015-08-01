@@ -682,6 +682,11 @@ class GitRepo {
 	public function setenv($key, $value) {
 		$this->envopts[$key] = $value;
 	}
+	
+	public function stash($method)
+    {
+    	return $this->run('stash ' . $method);
+    }
 
 }
 

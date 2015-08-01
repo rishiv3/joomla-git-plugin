@@ -2,6 +2,9 @@
 /**
  * @copyright	Copyright (C) 2012 Gnome on the run. All rights reserved.
  * @license		GNU General Public License version 3 or later
+ 
+ NO STASH
+ 
  */
 
 defined('JPATH_BASE') or die;
@@ -18,7 +21,7 @@ class plgSystemGit extends JPlugin
 	{
 		// Setup variables
 		$repo = new GitRepo(JPATH_ROOT);
-		$repo->git_path = $this->params->get('git_path');
+		$repo->bin = $this->params->get('git_path');
 		$active_branch = $repo->active_branch();
 
 		// Grab the status, which lists changed files
