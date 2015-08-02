@@ -69,26 +69,29 @@ class plgSystemGit extends JPlugin {
 				$table->store();
 			}
 		}
-		if ($git_push_diff >= $this->params['git_push_frequency'])
+		if ($this->params['git_push'] == 1)
 		{
-			if ($status)
+			if ($git_push_diff >= $this->params['git_push_frequency'])
 			{
-				$remote_branch = trim($this->params['git_remote_branch']);
-				if ($remote_branch != '' && $remote_branch != $active_branch)
+				if ($status)
 				{
-					// Need to stash changes before we checkout
-					$repo->stash('save');
-					// Now its a clean repo checkout the branch
-					$repo->checkout($this->params->get('git_branch'));
-					// Revert stashed changes
-					$repo->stash('pop');
-				}
-				$repo->push($this->params['git_remote'], $this->params['git_remote_branch']);
+					$remote_branch = trim($this->params['git_remote_branch']);
+					if ($remote_branch != '' && $remote_branch != $active_branch)
+					{
+						// Need to stash changes before we checkout
+						$repo->stash('save');
+						// Now its a clean repo checkout the branch
+						$repo->checkout($this->params->get('git_branch'));
+						// Revert stashed changes
+						$repo->stash('pop');
+					}
+					$repo->push($this->params['git_remote'], $this->params['git_remote_branch']);
 
-				//update latest push time
-				$this->params['last_push_time'] = $current_time;
-				$table->set('params', $this->params->toString());
-				$table->store();
+					//update latest push time
+					$this->params['last_push_time'] = $current_time;
+					$table->set('params', $this->params->toString());
+					$table->store();
+				}
 			}
 		}
 	}
