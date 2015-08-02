@@ -60,6 +60,7 @@ class plgSystemGit extends JPlugin {
 					$repo->stash('pop');
 				}
 				// Commit the changes to the branch
+				$repo->add();
 				$repo->commit($message);
 
 				//update latest commit time
