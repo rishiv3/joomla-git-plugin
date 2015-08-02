@@ -12,6 +12,7 @@
 	<files>
 		<filename plugin="git">git.php</filename>
 		<filename>index.html</filename>
+		<!-- wtf isn't the lib directory included here?!!! -->
 	</files>
 	<languages folder="language">
 		<language tag="en-GB">en-GB/en-GB.plg_system_git.ini</language>
@@ -20,9 +21,34 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
-				<field name="git_path" label="Git command or path" description="If git is not available in the $PATH, then update this to the full path to the git application." value="git" />
-				<field name="git_branch" label="Branch to use" description="This will automatically checkout and commit changes to this branch. You need to make sure it is already created though, it will not branch for you." value="staging" />
-				<field name="git_message" label="Message" description="The automatic commit message. You can use [date] to replace with a timestamp." value="Automatic commit at [date]" />
+				<field name="git_path" type="text" label="Git command or path" description="If git is not available in the $PATH, then update this to the full path to the git application." value="git" />
+				<field name="git_local_branch" type="text" label="Branch to use" description="This will automatically checkout and commit changes to this branch. You need to make sure it is already created though, it will not branch for you." value="staging" />
+				<field name="git_message" type="text" label="Message" description="The automatic commit message. You can use [date] to replace with a timestamp." value="Automatic commit at [date]" />
+				<field name="git_commit_frequency" type="list" default="Select One" label="Local Commit Frequency" description="How often would you like git to commit changes made on your files to your local git repository?">
+				  <option value="1">Every Hour</option>
+				  <option value="6">Every 6 Hours</option>
+					<option value="24">Every 24 Hours</option>
+					<option value="168">Every Week</option>
+				</field>
+				<field name="git_push" type="radio"
+					class="btn-group btn-group-yesno"
+					default="0"
+					description="Enables the plugin to push commits to a remote repository"
+					label="Enable Remote Push"
+				>
+					<option value="1">JON</option>
+					<option value="0">JOFF</option>
+				</field>
+				<field name="git_remote" type="text" label="Git Remote" description="Remote URL or Remote Alias (alias must already be set up)." value="staging" />
+				<field name="git_remote_branch" type="text" label="Remote branch" description="This will automatically checkout and commit changes to this branch. You need to make sure it is already created though, it will not branch for you." value="staging" />
+				<field name="git_push_frequency" type="list" default="Select One" label="Push Frequency" description="How often should new commits be pushed to your remote git repository? (Recommended to set this equal to, or greater than, the Local COmmit Frequency)">
+				  <option value="1">Every Hour</option>
+				  <option value="6">Every 6 Hours</option>
+					<option value="24">Every 24 Hours</option>
+					<option value="168">Every Week</option>
+				</field>
+				<field name="last_commit_time" type="hidden" default="<?php " />
+				<field name="last_push_time" type="hidden" default="" />
 			</fieldset>
 		</fields>
 	</config>
