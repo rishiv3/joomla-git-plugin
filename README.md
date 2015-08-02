@@ -24,6 +24,8 @@ Set the remote (either the ssh remote url, or an alias that you've set up), and 
 
 Set the Push Freqency - how often you'd like the plugin to push changes. (recommended to be equal to or greated tham the commit frequency)
 
+![Plugin Settings](http://jonneubauer.com/images/gitplug-settings.png)
+
 ### Why?
 
 Sometimes you just need to track the entire Joomla install with git, but once the site goes live the files can be easily modified and out of sync with the main repository. This allows you to auto-commit the changes into a separate branch, which you can then later merge.
