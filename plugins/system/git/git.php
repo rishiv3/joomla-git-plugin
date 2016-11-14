@@ -6,7 +6,7 @@ class plgSystemGit extends JPlugin {
 	protected $autoloadLanguage = true;
 
 	function onAfterRender() {
-	
+
 		// get plugin parameters
 		$table = new JTableExtension(JFactory::getDbo());
 		$table->load(array('element' => 'git'));
@@ -14,35 +14,36 @@ class plgSystemGit extends JPlugin {
 		// if commit and push times aren't set yet, set them
 		if ($this->params['last_commit_time'] == "")
 		{
-		$time = date('Y-m-d H:i:s');
-		$this->params['last_commit_time'] = $time;
-		$table->set('params', $this->params->toString());
-		$table->store();
+			$time = date('Y-m-d H:i:s');
+			$this->params['last_commit_time'] = $time;
+			$table->set('params', $this->params->toString());
+			$table->store();
 		}
 		if ($this->params['last_push_time'] == "")
 		{
-		$time = date('Y-m-d H:i:s');
-		$this->params['last_push_time'] = $time;
-		$table->set('params', $this->params->toString());
-		$table->store();
+			$time = date('Y-m-d H:i:s');
+			$this->params['last_push_time'] = $time;
+			$table->set('params', $this->params->toString());
+			$table->store();
 		}
 
 		// Setup variables
 		$repo = new GitRepo(JPATH_ROOT);
 		$repo->git_path = $this->params->get('git_path');
-		$active_branch = $repo->active_branch();
-		$status = $repo->status();
-		$message = $this->params->get('git_message');
-		$remote = $this->params->get('git_remote');
-		$remote_branch = $this->params->get('git_remote_branch');
+		$active_branch 	= $repo->active_branch();
+		$status  		= $repo->status();
+		$message 		= str_replace('[date]', date("l jS \of F Y"), $this->params->get('git_message'));
+		$message 		= str_replace('[time]', date("h:i:s A"), $message);
+		$remote  		= $this->params->get('git_remote');
+		$remote_branch 	= $this->params->get('git_remote_branch');
 
 		// compare current time to last commit time
 		$current_time = date('Y-m-d H:i:s');
-		$git_commit_diff = round((strtotime($current_time) - strtotime($this->params['last_commit_time']))/(60*60));
-		
+		$git_commit_diff = round((strtotime($current_time) - strtotime($this->params['last_commit_time']))/(60));
+
 		//compare current time to last push time
-		$git_push_diff = round((strtotime($current_time) - strtotime($this->params['last_push_time']))/(60*60));
-		
+		$git_push_diff = round((strtotime($current_time) - strtotime($this->params['last_push_time']))/(60));
+
 		if ($git_commit_diff >= $this->params['git_commit_frequency'])
 		{
 			if ($status)
